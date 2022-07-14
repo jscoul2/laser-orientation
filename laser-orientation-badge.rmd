@@ -157,7 +157,7 @@ What do you notice about this data set? What do you wonder? Add one-two
 thoughts following the dashes next (you can add additional dashes if you
 like!):
 
--   
+-   there are 603 rows with 30 variables
 
 -   
 
@@ -184,11 +184,11 @@ your area of work and/or research.
 
 What rows typically (or you think may) represent:
 
--   
+-   cases such as students or faculty
 
 What columns typically (or you think may) represent:
 
--   
+-   variables such as demographics
 
 Next, we'll use a few functions that are handy for preparing data in
 table form.
@@ -235,7 +235,7 @@ variable to this code.
 
 ```{r}
 d |> 
-  select(student_id, total_points_possible, total_points_earned)
+  select(student_id, total_points_possible, total_points_earned, subject)
 ```
 
 Once added, the output should be different than in the code above -
@@ -267,7 +267,9 @@ d |>
 What happens when you change the cut-off from 70 to something else? Add
 a thought (or more):
 
--   
+-   \# of students who are 70% or smaller is 135
+
+-   \# of students who are 70% or larger is 438
 
 ### Arrange
 
@@ -302,8 +304,8 @@ glimpsed at the names of all of the variables.
 
 ```{r}
 d |> 
-  select(student_id, FinalGradeCEMS) |> 
-  arrange(desc(FinalGradeCEMS))
+  select(student_id, Points_Earned) |> 
+  arrange(desc(Points_Earned))
 ```
 
 ### Reach 1 🎉
@@ -318,7 +320,9 @@ who wish to do a bit more with these functions at this time (we'll do
 more in class, too!)*
 
 ```{r}
-
+d |>
+  select(student_id, Points_Earned) |>
+  arrange(Points_Earned)
 ```
 
 ## 3. EXPLORE
@@ -357,7 +361,7 @@ consider this list of valid color names here:
 
 ```{r}
 ggplot(d, aes(x = FinalGradeCEMS)) +
-  geom_histogram(fill = "blue")
+  geom_histogram(fill = "cadetblue")
 ```
 
 Finally, we'll make one more change; visualize the distribution of
@@ -366,7 +370,7 @@ so by swapping out the name for another variable with FinalGradeCEMS.
 Also, change the color to one other than blue.
 
 ```{r}
-ggplot(d, aes(x = FinalGradeCEMS)) +
+ggplot(d, aes(x = Points_Earned)) +
   geom_histogram(fill = "blue")
 ```
 
@@ -378,7 +382,7 @@ the names of two variables to the code below for what is now simply XXX
 (a placeholder).
 
 ```{r}
-ggplot(d, aes(x = XXX, y = XXX)) +
+ggplot(d, aes(x = Points_Earned, y = FinalGradeCEMS)) +
   geom_point()
 ```
 
@@ -412,7 +416,7 @@ results? We're going to dive into this *much* more: if you have many
 questions now, you're in the right spot!
 
 ```{r}
-m2 <- lm(FinalGradeCEMS ~ TimeSpent + subject, data = d)
+m2 <- lm(FinalGradeCEMS ~ TimeSpent + subject+ int, data = d)
 summary(m2)
 ```
 
